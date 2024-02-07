@@ -15,6 +15,9 @@
   .sm_img {
     @apply w-[152px] h-[167px]  ml-3 rounded-[20px] text-[#000000];
   }
+  .element {
+    @apply lg:w-[142px] w-[151px];
+  }
 }
 * {
   margin: 0;
@@ -389,7 +392,7 @@ html {
   padding: 12px 16px 12px 16px;
   border-radius: 62px;
   font-family: Satoshi;
-  font-size: 16px;
+
   font-weight: 500;
   line-height: 22px;
   letter-spacing: 0em;
@@ -425,7 +428,6 @@ html {
   justify-content: space-between;
   align-items: center;
 
-  
   height: 177px;
 }
 .container-2-content-1 {
@@ -456,22 +458,19 @@ html {
   width: 167px;
   height: 23px;
   font-family: Integral CF;
-  font-size: 33px;
+
   font-weight: 700;
   line-height: 40px;
   letter-spacing: 0em;
   text-align: left;
   color: #000000;
 }
-.desp {
-  width: 275px;
-  height: 48px;
-}
+
 .desp p {
   font-family: Satoshi;
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
+
   letter-spacing: 0px;
   text-align: left;
   color: #00000099;
@@ -494,7 +493,6 @@ html {
   margin: 3.5px;
 }
 .container-2-content {
-  width: 104px;
   display: flex;
   height: 149px;
   gap: 11px;
@@ -523,7 +521,7 @@ html {
 .container-2-content-element {
   font-family: Satoshi;
   font-size: 16px;
-  width: 142px;
+
   font-weight: 400;
   line-height: 17px;
   letter-spacing: 0px;
@@ -531,16 +529,13 @@ html {
   color: #00000099;
 }
 .footer-line {
- 
   background: #0000001a;
   border: 1px solid #0000001a;
-  
 }
 .container-3 {
   display: flex;
- 
+
   justify-content: space-between;
-  
 }
 .payment-logos {
   display: flex;

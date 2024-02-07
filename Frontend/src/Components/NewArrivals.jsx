@@ -21,7 +21,7 @@ const NewArrivals = () => {
         NEW ARRIVALS
       </span>
 
-      <div className=" flex flex-wrap gap-[35px] lg:max-w-[1305px] max-w-[486px] ml-[45px] lg:ml-0">
+      <div className=" flex flex-wrap gap-[35px] lg:max-w-[1305px] max-w-[324px] ">
         {isfull
           ? items.map((item) => (
               <Card

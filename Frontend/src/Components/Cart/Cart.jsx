@@ -25,7 +25,7 @@ const Cart = () => {
   );
   return (
     <div className="cart-conatiner">
-      <div className="border bg-[#0000001a] opacity-50 w-[1220px] h-[1px]  mt-[25px] ml-[100px]"></div>
+      <div className="border bg-[#0000001a] opacity-50 w-[324px] lg:w-[1220px] h-[1px]  mt-[25px] ml-[20px] lg:ml-[100px]"></div>
       <div className="cart-route mt-[30px] ml-[100px]"></div>
       <div className="cart-heading w-[259px] h-[48px] mt-[30px] ml-[100px]">
         <p className="font-bold font-[IntegralCF] text-[40px] leading-[48px] text-[#000000] ">

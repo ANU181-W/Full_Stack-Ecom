@@ -29,7 +29,7 @@ const Footer = () => {
             />
           </div>
           <div className="subscribe-btn-con lg:max-w-[349px] max-w-[280px] ">
-            <button className="subscribe-btn  lg:w-[349px] w-[280px] lg:h-[46px] h-[42px]">
+            <button className="subscribe-btn lg:text-[16px] text-[14px] lg:w-[349px] w-[280px] lg:h-[46px] h-[42px]">
               Subscribe to Newsletter
             </button>
           </div>
@@ -39,9 +39,11 @@ const Footer = () => {
         <div className="container-2-sub-con lg:flex-nowrap flex-wrap lg:max-w-[1240px] max-w-[392px] lg:ml-[100px] ml-[28px] ">
           <div className="container-2-content-1">
             <div>
-              <span className=" container-logo">SHOP.CO</span>
+              <span className=" container-logo lg:text-[33px] text-[28.85px]">
+                SHOP.CO
+              </span>
             </div>
-            <div className="desp">
+            <div className="desp lg:w-[275px] lg:h-[48px] w-[330px] h-[40px] leading-[20px] lg:leading-[22px]">
               <p>
                 We have clothes that suits your style and which you are proud to
                 wear. From women to men.
@@ -62,16 +64,18 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="flex lg:gap-[128px] gap-[45px]  max-w-[363px] lg:max-w-[800px] lg:flex-nowrap flex-wrap">
+          <div className="flex lg:gap-[128px] gap-[50px]  max-w-[400px] lg:max-w-[800px] lg:flex-nowrap flex-wrap">
             <div className="container-2-content">
               <div className="container-2-content-title">
                 <span>COMPANY</span>
               </div>
               <ul className="container-2-content-elements">
-                <li className="container-2-content-element">About </li>
-                <li className="container-2-content-element">Features</li>
-                <li className="container-2-content-element">Works</li>
-                <li className="container-2-content-element">Career</li>
+                <li className="container-2-content-element element">About </li>
+                <li className="container-2-content-element element">
+                  Features
+                </li>
+                <li className="container-2-content-element element">Works</li>
+                <li className="container-2-content-element element">Career</li>
               </ul>
             </div>
             <div className="container-2-content ">
@@ -80,16 +84,18 @@ const Footer = () => {
               </div>
 
               <ul className="container-2-content-elements">
-                <li className="container-2-content-element">
+                <li className="container-2-content-element element">
                   Customer Support
                 </li>
-                <li className="container-2-content-element">
+                <li className="container-2-content-element element">
                   Delivery Details
                 </li>
-                <li className="container-2-content-element">
+                <li className="container-2-content-element element">
                   Terms & Conditions
                 </li>
-                <li className="container-2-content-element">Privacy Policy</li>
+                <li className="container-2-content-element element">
+                  Privacy Policy
+                </li>
               </ul>
             </div>
             <div className="container-2-content">
@@ -98,26 +104,34 @@ const Footer = () => {
               </div>
 
               <ul className="container-2-content-elements">
-                <li className="container-2-content-element">Account </li>
-                <li className="container-2-content-element">
+                <li className="container-2-content-element element">
+                  Account{" "}
+                </li>
+                <li className="container-2-content-element element">
                   Manage Deliveries
                 </li>
-                <li className="container-2-content-element">Orders</li>
-                <li className="container-2-content-element">Payments</li>
+                <li className="container-2-content-element element">Orders</li>
+                <li className="container-2-content-element element">
+                  Payments
+                </li>
               </ul>
             </div>
-            <div className="container-2-content">
+            <div className="container-2-content lg:w-[104px] w-[159px]">
               <div className="container-2-content-title">
                 <span>RESOURCES</span>
               </div>
 
-              <ul className="container-2-content-elements">
-                <li className="container-2-content-element">Free eBooks</li>
-                <li className="container-2-content-element">
+              <ul className="container-2-content-elements ">
+                <li className="container-2-content-element element">
+                  Free eBooks
+                </li>
+                <li className="container-2-content-element element">
                   Development Tutorial
                 </li>
-                <li className="container-2-content-element">How to - Blog</li>
-                <li className="container-2-content-element">
+                <li className="container-2-content-element element">
+                  How to - Blog
+                </li>
+                <li className="container-2-content-element element">
                   Youtube Playlist
                 </li>
               </ul>
