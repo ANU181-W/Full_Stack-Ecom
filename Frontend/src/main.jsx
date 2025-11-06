@@ -9,7 +9,7 @@ import {ClerkProvider} from "@clerk/clerk-react"
 import store from "./Components/Redux/Store.jsx";
 
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = "https://ecom-backend-service-c3fs.onrender.com";
 //https://e-commerce-1818.azurewebsites.net
 
 const publishableKey=import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
