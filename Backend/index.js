@@ -7,6 +7,7 @@ import userrouter from "./Routes/UserRoute.js";
 import reviewrouter from "./Routes/Review.js";
 import clerkWebhook from "./Routes/ClerkWebhook.js"
 dotenv.config();
+app.use("/webhooks",clerkWebhook)
 const port = process.env.port_no;
 app.use(express.json());
 const corsOptions = {
@@ -17,7 +18,7 @@ app.use(cors());
 app.use("/item", itemRouter);
 app.use("/user", userrouter);
 app.use("/review", reviewrouter);
-app.use("/webhooks",clerkWebhook)
+
 import { DB_CONNECT } from "./Config/Database.js";
 DB_CONNECT();
 app.listen(port, () => {
