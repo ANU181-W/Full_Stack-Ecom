@@ -1,52 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement } from "../Redux/Slice/CounterSlice";
-import { removeCart } from "../Redux/Slice/CartSlice";
+import { removeCart, updateQuantity } from "../Redux/Slice/CartSlice";
 import { Tag, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
 const Cart = () => {
-  const count = useSelector((state) => state.Counter);
   const Cart = useSelector((state) => state.Cart);
   const dispatch = useDispatch();
-  console.log("Cart" + Cart);
-  const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
+
+  const [subtotal, setSubtotal] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const deliveryFee = 15;
+
   useEffect(() => {
-    setTotalAmount(Cart.reduce((acc, curr) => acc + curr.price, 0));
+    const totalOriginal = Cart.reduce(
+      (acc, item) => acc + item.price * (item.quantity || 1),
+      0
+    );
+
+    const totalDiscounted = Cart.reduce(
+      (acc, item) =>
+        acc + (item.discount || item.price) * (item.quantity || 1),
+      0
+    );
+
+    const discountAmount = totalOriginal - totalDiscounted;
+    const percent =
+      totalOriginal > 0 ? ((discountAmount / totalOriginal) * 100) : 0;
+
+    setSubtotal(totalOriginal);
+    setTotalDiscount(discountAmount);
+    setDiscountPercent(percent);
   }, [Cart]);
 
-  let discount = Cart.reduce(
-    (acc, curr) => acc + curr.price - curr.discount,
-    0
-  );
-  let discountpercent = Cart.reduce(
-    (acc, curr) => acc + (discount / curr.price) * 100,
-    0
-  );
+  const finalTotal = subtotal - totalDiscount + deliveryFee;
+
   return (
     <div className="cart-conatiner">
-      <div className="border bg-[#0000001a] opacity-50 w-[324px] lg:w-[1220px] h-[1px]  mt-[25px] ml-[20px] lg:ml-[100px]"></div>
-      <div className="cart-route mt-[30px] ml-[100px]"></div>
-      <div className="cart-heading w-[259px] h-[48px] mt-[30px] ml-[100px]">
-        <p className="font-bold font-[IntegralCF] text-[40px] leading-[48px] text-[#000000] ">
+      <div className="border bg-[#0000001a] opacity-50 w-full max-w-[324px] lg:max-w-[1220px] h-[1px] mt-[25px] mx-auto lg:ml-[100px]"></div>
+      <div className="cart-route mt-[30px] px-5 lg:px-0 lg:ml-[100px]"></div>
+      <div className="cart-heading w-auto lg:w-[259px] h-auto lg:h-[48px] mt-[30px] px-5 lg:px-0 lg:ml-[100px]">
+        <p className="font-bold font-[IntegralCF] text-[28px] sm:text-[32px] lg:text-[40px] leading-[36px] sm:leading-[42px] lg:leading-[48px] text-[#000000]">
           YOUR CART
         </p>
       </div>
-      <div className="cart-main-conatiner mt-[25px] ml-[100px] flex gap-[20px]">
-        <div className="cart-items w-[715px] h-fit rounded-[20px] flex flex-col gap-[24px] ">
-          {Cart.length == 0 ? (
+      <div className="cart-main-conatiner mt-[25px] px-5 lg:px-0 lg:ml-[100px] flex flex-col lg:flex-row gap-[20px]">
+        <div className="cart-items w-full lg:w-[715px] h-fit rounded-[20px] flex flex-col gap-[24px]">
+          {Cart.length === 0 ? (
             <>
               <div className="empty-cart flex flex-col gap-[10px] justify-center items-center">
-                <p className="w-[225px] h-[32px] font-[Satoshi] font-bold text-[24px] leading-[32.4px] text-[#000000]">
+                <p className="w-auto lg:w-[225px] h-auto lg:h-[32px] font-[Satoshi] font-bold text-[20px] sm:text-[22px] lg:text-[24px] leading-[28px] sm:leading-[30px] lg:leading-[32.4px] text-[#000000] text-center">
                   Your Cart is empty...
                 </p>
                 <button
-                  className="w-[180px] h-[48px] rounded-[62px] px-[38px] py-[13px] flex gap-[12px] bg-[#000000] ml-[10px]"
-                  onClick={() => {
-                    navigate("/");
-                  }}
+                  className="w-auto lg:w-[180px] h-[48px] rounded-[62px] px-[38px] py-[13px] flex gap-[12px] bg-[#000000] hover:bg-[#333333] transition-colors"
+                  onClick={() => navigate("/")}
                 >
-                  <p className="text-[#FFFFFF] w-[100px] h-[22px] font-[Satoshi] font-medium text-[18px] leading-[22.6px]">
+                  <p className="text-[#FFFFFF] w-auto lg:w-[100px] h-[22px] font-[Satoshi] font-medium text-[16px] sm:text-[17px] lg:text-[18px] leading-[22.6px] whitespace-nowrap">
                     Go to Shop
                   </p>
                 </button>
@@ -55,58 +67,80 @@ const Cart = () => {
           ) : (
             Cart.map((e) => (
               <>
-                <div className="w-[667px] h-[124px] flex gap-[16px] justify-between">
+                <div className="w-full lg:w-[667px] h-auto lg:h-[124px] flex flex-col sm:flex-row gap-[16px] justify-between">
                   <img
                     src={e.image_url}
                     alt="item_image"
-                    className="w-[124px] h-[124px] rounded-[8.66px] "
+                    className="w-full sm:w-[124px] h-[200px] sm:h-[124px] rounded-[8.66px] object-cover"
                   />
 
-                  <div className="w-[227px] h-[118px] flex flex-col justify-between ">
-                    <div className="productr-title w-[227px] h-[27px]">
-                      <p className="font-[Satoshi] font-bold text-[20px] leading-[27px] text-[#000000]">
+                  <div className="w-full sm:w-[227px] h-auto sm:h-[118px] flex flex-col justify-between gap-[12px] sm:gap-0">
+                    <div className="productr-title w-full sm:w-[227px] h-auto sm:h-[27px]">
+                      <p className="font-[Satoshi] font-bold text-[18px] sm:text-[20px] leading-[24px] sm:leading-[27px] text-[#000000]">
                         {e.title}
                       </p>
                     </div>
-                    <div className="w-[87px] h-[19px] flex gap-[10px]">
-                      <p className="font-[Satoshi] font-normal text-[18px] leading-[18.9px] text-[#000000]">
+                    <div className="w-auto sm:w-[112px] h-[19px] flex gap-[10px]">
+                      <p className="font-[Satoshi] font-normal text-[16px] sm:text-[18px] leading-[18.9px] text-[#000000]">
                         Size :
                       </p>
-
-                      <p className="font-[Satoshi] font-normal text-[18px] leading-[18.9px] text-[#00000066]">
-                        large
+                      <p className="font-[Satoshi] font-normal text-[16px] sm:text-[18px] leading-[18.9px] text-[#00000066]">
+                        {e.selectedSize || "—"}
                       </p>
                     </div>
-                    <div className="w-[105px] h-[19px] flex gap-[10px]">
-                      <p className="font-[Satoshi] font-normal text-[18px] leading-[18.9px] text-[#000000]">
+                    <div className="w-auto sm:w-[105px] h-[19px] flex gap-[10px] items-center">
+                      <p className="font-[Satoshi] font-normal text-[16px] sm:text-[18px] leading-[18.9px] text-[#000000]">
                         Color :
                       </p>
-
-                      <p className="font-[Satoshi] font-normal text-[18px] leading-[18.9px] text-[#00000066]">
-                        White
-                      </p>
+                      <div
+                        className="w-[20px] h-[20px] rounded-[50%] border border-gray-300"
+                        style={{
+                          background: e.selectedColor,
+                        }}
+                        title={e.selectedColor}
+                      ></div>
                     </div>
                     <div className="w-[54px] h-[32px]">
-                      <p className="font-[Satoshi] font-bold text-[24px] leading-[32.4px] text-[#000000]">
-                        ${e.discount ? e.discount : e.price}
+                      <p className="font-[Satoshi] font-bold text-[20px] sm:text-[24px] leading-[28px] sm:leading-[32.4px] text-[#000000]">
+                        ${e.price}
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-between">
+
+                  <div className="flex sm:flex-col justify-between sm:justify-between items-end sm:items-end">
                     <Trash2
-                      className="w-[24px] h-[24px] text-[#FF3333] ml-[102px] hover:cursor-pointer"
+                      className="w-[24px] h-[24px] text-[#FF3333] sm:ml-[102px] hover:cursor-pointer hover:text-[#cc0000] transition-colors"
                       onClick={() => dispatch(removeCart(e._id))}
                     />
-                    <div className="flex  w-[126px] h-[44px] rounded-[62px] py-[12px] px-[20px] gap-[20px] bg-[#F0F0F0]">
-                      <button onClick={() => dispatch(decrement())}>
+                    <div className="flex w-[126px] h-[44px] rounded-[62px] py-[12px] px-[20px] gap-[20px] bg-[#F0F0F0]">
+                      <button
+                        onClick={() => {
+                          const newQty = (e.quantity || 1) - 1;
+                          if (newQty > 0)
+                            dispatch(
+                              updateQuantity({ id: e._id, quantity: newQty })
+                            );
+                        }}
+                        className="hover:opacity-70 transition-opacity"
+                      >
                         <p className="w-[20px] h-[20px] text-[#000000] leading-[18px] text-[28px]">
                           -
                         </p>
                       </button>
                       <p className="w-[9px] h-[19px] font-[Satoshi] font-medium text-[14px] leading-[25.9px] text-[#000000]">
-                        {count < 0 ? 0 : count}
+                        {e.quantity || 1}
                       </p>
-                      <button onClick={() => dispatch(increment())}>
+                      <button
+                        onClick={() =>
+                          dispatch(
+                            updateQuantity({
+                              id: e._id,
+                              quantity: (e.quantity || 1) + 1,
+                            })
+                          )
+                        }
+                        className="hover:opacity-70 transition-opacity"
+                      >
                         <p className="w-[20px] h-[20px] text-[#000000] leading-[18px] text-[28px]">
                           +
                         </p>
@@ -119,66 +153,65 @@ const Cart = () => {
             ))
           )}
         </div>
-        <div className="cart-checkout cart-items w-[505px] h-[450px] rounded-[20px] flex flex-col gap-[24px]">
-          <div className="w-[179px] h-[32px] font-[Satoshi] font-bold text-[24px] leading-[32.4px] text-[#000000]">
+
+        {/* Order Summary */}
+        <div className="cart-checkout cart-items w-full lg:w-[505px] h-auto lg:h-[450px] rounded-[20px] flex flex-col gap-[24px] border border-[#0000001a] p-[24px] bg-white">
+          <div className="w-auto lg:w-[179px] h-[32px] font-[Satoshi] font-bold text-[20px] sm:text-[22px] lg:text-[24px] leading-[28px] sm:leading-[30px] lg:leading-[32.4px] text-[#000000]">
             <p>Order Summary</p>
           </div>
-          <div className="cart-price-section w-[457px] h-[193px] flex flex-col gap-[20px]">
-            <div className="sub-total w-[457px] h-[27px] flex justify-between">
-              <p className="w-[72px] h-[27px] font-[Satoshi] font-normal text-[20px] leading-[27px] text-[#00000099]">
-                Subtotal
-              </p>
-              <p className="w-[49px] h-[27px] font-[Satoshi] font-bold text-[20px] leading-[27px] text-right text-[#000000]">
-                {totalAmount}
-              </p>
-            </div>
-            <div className="sub-total w-[457px] h-[27px] flex justify-between">
-              <p className="w-[72px] h-[27px] font-[Satoshi] font-normal text-[20px] leading-[27px] text-[#00000099]">
-                Discount(${parseInt(discountpercent)}%)
-              </p>
-              <p className="w-[49px] h-[27px] font-[Satoshi] font-bold text-[20px] leading-[27px] text-right text-[#FF3333]">
-                {`-$${discount}`}
-              </p>
-            </div>
-            <div className="sub-total w-[457px] h-[27px] flex justify-between">
-              <p className="w-[107px] h-[27px] font-[Satoshi] font-normal text-[20px] leading-[27px] text-[#00000099]">
-                Delivery Fee
-              </p>
-              <p className="w-[49px] h-[27px] font-[Satoshi] font-bold text-[20px] leading-[27px] text-right text-[#000000]">
-                {`$15`}
-              </p>
-            </div>
-            <div className="border bg-[#0000001a] opacity-50 w-[457px] h-[1px]  "></div>
-            <div className="sub-total w-[457px] h-[27px] flex justify-between">
-              <p className="w-[107px] h-[27px] font-[Satoshi] font-normal text-[20px] leading-[27px] text-[#000000]">
-                Total
-              </p>
-              <p className="w-[49px] h-[27px] font-[Satoshi] font-bold text-[20px] leading-[27px] text-right text-[#000000]">
-                {totalAmount}
-              </p>
-            </div>
-            <div className="w-[457px] h-[48px] flex gap-[12px]">
-              <Tag className="absolute ml-[15px] mt-[15px] w-[21px] h-[21px] text-[#00000066]" />
-              <input
-                type="text"
-                placeholder="Add promo code"
-                className="w-[326px] h-[48px] rounded-[62px] px-[50px] py-[12px]  bg-[#F0F0F0] text-[#000000]"
-              />
 
-              <button className="w-[119px] h-[48px] rounded-[62px] px-[38px] py-[13px] flex gap-[12px] bg-[#000000]">
-                <p className="text-[#FFFFFF] w-[42px] h-[22px] font-[Satoshi] font-medium text-[16px] leading-[21.6px]">
-                  Apply
-                </p>
-              </button>
+          <div className="cart-price-section w-full lg:w-[457px] h-auto lg:h-[193px] flex flex-col gap-[20px]">
+            <div className="sub-total w-full lg:w-[457px] h-[27px] flex justify-between">
+              <p className="text-[#00000099] text-[16px] sm:text-[18px]">Subtotal</p>
+              <p className="text-[#000000] font-bold text-[16px] sm:text-[18px]">${subtotal.toFixed(2)}</p>
             </div>
-            <div>
-              <button className="w-[457px] h-[60px] rounded-[62px] px-[54px] pl-[160px] py-[18px] flex gap-[12px] bg-[#000000]">
-                <p className="text-[#FFFFFF] w-[114px] h-[22px] font-[Satoshi] font-medium text-[16px] leading-[24.6px]">
-                  Go to Checkout
-                </p>
+
+            <div className="sub-total w-full lg:w-[457px] h-[27px] flex justify-between">
+              <p className="text-[#00000099] text-[16px] sm:text-[18px]">
+                Discount({parseInt(discountPercent)}%)
+              </p>
+              <p className="text-[#FF3333] font-bold text-[16px] sm:text-[18px]">
+                -${totalDiscount.toFixed(2)}
+              </p>
+            </div>
+
+            <div className="sub-total w-full lg:w-[457px] h-[27px] flex justify-between">
+              <p className="text-[#00000099] text-[16px] sm:text-[18px]">Delivery Fee</p>
+              <p className="text-[#000000] font-bold text-[16px] sm:text-[18px]">${deliveryFee}</p>
+            </div>
+
+            <div className="border bg-[#0000001a] opacity-50 w-full lg:w-[457px] h-[1px]"></div>
+
+            <div className="sub-total w-full lg:w-[457px] h-[27px] flex justify-between">
+              <p className="text-[#000000] text-[18px] sm:text-[20px]">Total</p>
+              <p className="text-[#000000] font-bold text-[18px] sm:text-[20px]">
+                ${finalTotal.toFixed(2)}
+              </p>
+            </div>
+
+            <div className="w-full lg:w-[457px] h-auto lg:h-[48px] flex flex-col sm:flex-row gap-[12px] sm:gap-[20px]">
+              <div className="flex-1 w-full sm:w-[322px] h-[48px] rounded-[62px] py-[13px] px-[20px] bg-[#F0F0F0] flex gap-[12px]">
+                <Tag className="w-[18px] h-[18px] text-[#00000066] mt-[4px]" />
+                <input
+                  type="text"
+                  placeholder="Add promo code"
+                  className="bg-transparent outline-none font-[Satoshi] font-normal text-[14px] sm:text-[16px] leading-[21.6px] text-[#000000] placeholder:text-[#00000066] w-full"
+                />
+              </div>
+              <button className="w-full sm:w-[115px] h-[48px] rounded-[62px] py-[13px] px-[38px] bg-[#000000] hover:bg-[#333333] transition-colors">
+                <p className="text-[#FFFFFF] text-[14px] sm:text-[16px]">Apply</p>
               </button>
             </div>
           </div>
+
+          <button 
+            className="w-full lg:w-[457px] h-[56px] rounded-[62px] px-[50px] py-[16px] gap-[12px] bg-[#000000] hover:bg-[#333333] transition-colors disabled:bg-[#cccccc] disabled:cursor-not-allowed"
+            disabled={Cart.length === 0}
+          >
+            <p className="font-[Satoshi] font-medium text-[14px] sm:text-[16px] leading-[21.6px] text-[#FFFFFF]">
+              Go to Checkout
+            </p>
+          </button>
         </div>
       </div>
     </div>

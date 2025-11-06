@@ -7,6 +7,10 @@ import { Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button, Drawer, Radio, Space } from "antd";
 import { X } from "lucide-react";
+
+// 🧩 Add Clerk imports
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
+
 const elements = ["On Sale", "New Arrivals", "Brands"];
 
 const MobileNavbar = () => {
@@ -50,11 +54,13 @@ const MobileNavbar = () => {
     </>
   );
 };
+
 const Navbar = () => {
   const navigate = useNavigate();
   const navigateHandler = () => {
     navigate("/cart");
   };
+
   return (
     <header className="container-11 w-full lg:ml-[100px] ml-[10px] lg:gap-[40px] gap-[12px] ">
       <div className="hamburger lg:hidden">
@@ -102,9 +108,25 @@ const Navbar = () => {
             onClick={navigateHandler}
           />
         </div>
+
+        {/* 🔽 Clerk auth section added here */}
         <div className="w-[24px] h-[24px]">
-          <img src={user} alt="user" className="w-[20.27px] h-[20.27px]" />
+          <SignedOut>
+            <SignInButton mode="modal">
+              <img
+                src={user}
+                alt="user"
+                className="w-[20.27px] h-[20.27px] hover:cursor-pointer"
+              />
+            </SignInButton>
+          </SignedOut>
+
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
         </div>
+        {/* 🔼 Clerk auth section end */}
+
         <div className="search lg:hidden ">
           <img src={search} alt="search-icon " />
         </div>
