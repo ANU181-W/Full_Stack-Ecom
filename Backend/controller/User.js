@@ -1,5 +1,6 @@
 import User from "../models/User.js";
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
+
 export const RegisterUser = async (req, res) => {
   let hashedpassword;
   const { name, email, password, role } = req.body;
